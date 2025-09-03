@@ -1,3 +1,5 @@
+import numpy as np
+
 default_kwargs = {'color' : 'Blue'}
 
 def _find_chunks(stream):

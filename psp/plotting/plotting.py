@@ -86,8 +86,8 @@ class CombineFigure():
         figManager.window.showMaximized()
     
     def show(self, maximize : bool = False):
-        '''
-        Method to show the stored plot. 
+        """
+        Method to show the stored plot.
 
         Parameters
         ----------
@@ -98,7 +98,7 @@ class CombineFigure():
         -------
         None.
 
-        '''
+        """
         if maximize:
             self._maximize_window()
         plt.show()
@@ -170,19 +170,19 @@ class ComplexPlot(ABC):
     ##########################################################################
     
     def add_phasor(self, value : complex, ref : tuple = (0,0), name : str = "", color : str = None, polar : bool = False, **kwargs):
-        '''
-        This functions adds a phasor to the plot (axes object). 
+        """
+        This functions adds a phasor to the plot (axes object).
 
         Parameters
         ----------
         value : complex
-            Value of the phasor with respect to (0,0). If you wish to simple 
+            Value of the phasor with respect to (0,0). If you wish to simple
             move with respect to ref = (1,1), you need to add 1+1j to value.
         ref : tuple, optional
             Tuple with coordinates for the beginning of of the phasos.
             The default is (0,0).
         name : str, optional
-            Name of the phasor. This will be plotted on as a textbox close to 
+            Name of the phasor. This will be plotted on as a textbox close to
             the phasor. The default is "".
         color : str, optional
             Select the color of the phasor. The default is None.
@@ -197,7 +197,7 @@ class ComplexPlot(ABC):
         -------
         None.
 
-        '''
+        """
         plot_quiver(axes = self._axes,
                     phasor = value,
                     ref = ref,
@@ -210,7 +210,7 @@ class ComplexPlot(ABC):
         self.coordinates.append((value.real, value.imag))
         
     def add_textbox(self, x : float, y : float, s : str, box : dict = {}, **kwargs):
-        '''
+        """
         Method for plotting a textbox.
 
         Parameters
@@ -232,7 +232,7 @@ class ComplexPlot(ABC):
         -------
         None.
 
-        '''
+        """
         plot_textbox(self._axes,
                      x = x,
                      y = y,
@@ -243,7 +243,7 @@ class ComplexPlot(ABC):
         self.coordinates.append((x, y))
         
     def add_point(self, value : complex|tuple, **kwargs):
-        '''
+        """
         Method to add a point to the plot.
 
         Parameters
@@ -259,7 +259,7 @@ class ComplexPlot(ABC):
         -------
         None.
 
-        '''
+        """
         add_point(self._axes, 
                   value = value,
                   **kwargs)
@@ -267,8 +267,8 @@ class ComplexPlot(ABC):
         self.coordinates.append((value.real, value.imag))
     
     def add_line(self, arange : Iterable, afunc : Callable, **kwargs):
-        '''
-        Method to add a line to the plot based on a range and function. 
+        """
+        Method to add a line to the plot based on a range and function.
 
         Parameters
         ----------
@@ -284,7 +284,7 @@ class ComplexPlot(ABC):
         -------
         None.
 
-        '''
+        """
         x = arange
         y = list(map(afunc, arange))
         nplot(self._axes,
@@ -323,7 +323,7 @@ class ComplexPlot(ABC):
         plot_angle(self._axes, r, phi_start, phi_end, text, scale, arrow_start, arrow_end)
                        
     def add_impedance_trace(self, imp: Iterable[complex], start : complex = 0+0j, **kwargs):
-        '''
+        """
         Method for adding an trace of impedance to the plot. The method is
         intended for plotting the combined positive sequence of multiple
         cable/line sections in a radial topology.
@@ -347,7 +347,7 @@ class ComplexPlot(ABC):
         -------
         None.
 
-        '''
+        """
         
         if isinstance(imp, complex):
             impedances = np.cumsum([start, imp])
@@ -379,7 +379,7 @@ class ComplexPlot(ABC):
         self.coordinates.append(*zone.exterior.xy)
 
     def _get_rmax(self):
-        '''
+        """
         Method to return 110% of the maximum x and y values use for the plot.
         This value can be used to set the x and y plot limit for the plot
         automatically.
@@ -387,23 +387,23 @@ class ComplexPlot(ABC):
         Returns
         -------
         float
-            Maximum x/y value used in the plot times 110%. 
+            Maximum x/y value used in the plot times 110%.
 
-        '''
+        """
         xmax = max(map(abs, [x for x, y in self.coordinates]))
         ymax = max(map(abs, [y for x, y in self.coordinates]))
         
         return max(xmax, ymax) * 1.1
     
     def show(self):
-        '''
+        """
         Method to show the plot.
 
         Returns
         -------
         None.
 
-        '''
+        """
         self.layout(self._axes)
         self.axes.overwrite()
         plt.show()
@@ -416,7 +416,7 @@ class ComplexPlot(ABC):
 
 
 class PlotPolar(ComplexPlot):
-    '''A class for creating a phasor plot using a polar projection.'''
+    """A class for creating a phasor plot using a polar projection."""
     
     def __init__(self, title : str, axes : plt.Axes = None):
         super().__init__(title = title, axes = axes, projection = 'polar')
@@ -437,11 +437,11 @@ class PlotPolar(ComplexPlot):
         axes.set_rlim(0, self._get_rmax() + 0.5)
 
 
-class PlotPhasor(ComplexPlot):    
-    '''
+class PlotPhasor(ComplexPlot):
+    """
     A class for creating a phasor plot using a cartesian projection.
     The plot will have a centered x and y axis.
-    '''
+    """
     
     def __init__(self, title : str, axes : plt.Axes = None):
         super().__init__(title = title, axes = axes)
@@ -491,7 +491,7 @@ class PlotPhasor(ComplexPlot):
 
 
 class RXplot(ComplexPlot):
-    '''A class for creating a complex plot.'''
+    """A class for creating a complex plot."""
     
     def __init__(self, title : str):
         super().__init__(title)
@@ -506,7 +506,7 @@ class RXplot(ComplexPlot):
         axes.grid(True)
 
 class BinaryPlot(ComplexPlot):
-    '''A class for creating a binary plot from a comtrade file.'''
+    """A class for creating a binary plot from a comtrade file."""
 
     def __init__(self, title: str):
         super().__init__(title)
@@ -518,27 +518,6 @@ class BinaryPlot(ComplexPlot):
         axes.set_xlabel(r'Time [s]')
         #self.fig.set_size_inches(15, 10)
         #self.fig.subplots_adjust(left=0.2, top=0.95, bottom=0.05)
-
-
-"""
-#Creating a new special plot
-
-class myspecialplot(ComplexPlot):
-    def __init__(self, title : str):
-        super().__init__(title)
-    
-    def layout(self, axes : plt.Axes):
-        # define layout for the plot
-        axes.set_xlabel(r'R [$\Omega$]')
-        axes.set_ylabel(r'X [$\Omega$]')
-
-# View the methods that are inherited:
-help(myspecialplot)
-
-aplot = myspecialplot('mytitle')
-aplot.add_phasor(value=1+1j, color='Blue', name='VA')
-aplot.show()
-"""
 
 
 # testing
