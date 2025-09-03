@@ -182,7 +182,7 @@ class ComplexPlot(ABC):
             Value of the phasor with respect to (0,0). If you wish to simple
             move with respect to ref = (1,1), you need to add 1+1j to value.
         ref : tuple, optional
-            Tuple with coordinates for the beginning of of the phasos.
+            Tuple with coordinates for the beginning of the phasor.
             The default is (0,0).
         name : str, optional
             Name of the phasor. This will be plotted on as a textbox close to
@@ -191,9 +191,9 @@ class ComplexPlot(ABC):
             Select the color of the phasor. The default is None.
         polar : bool, optional
             Option for plotting on a axes with polar projection.
-            The default is False, which is equial to a cartesian axes.
+            The default is False, which is equal to a cartesian axes.
         **kwargs : N/A
-            Additional arguements can be added for the underlaying axes.quiver
+            Additional arguments can be added for the underlying axes.quiver
             object.
 
         Returns
@@ -219,16 +219,16 @@ class ComplexPlot(ABC):
         Parameters
         ----------
         x : float
-            x-coordinate for the postion.
+            x-coordinate for the position.
         y : float
-            y-coordinate for the postion.
+            y-coordinate for the position.
         s : str
             Text for the textbox.
         box : dict, optional
             Added a box around the text box. The default is {}.
-            Specfic any argument to add the box e.g. {'color' : 'red'}.
+            Specific any argument to add the box e.g. {'color' : 'red'}.
         **kwargs : TYPE
-            Additional arguements can be added for the underlaying axes.text
+            Additional arguments can be added for the underlying axes.text
             object.
 
         Returns
@@ -255,7 +255,7 @@ class ComplexPlot(ABC):
             x and y coordinate for the point specified either a coordinate
             (x,y) or a complex number x+jy.
         **kwargs : TYPE
-            Additional arguements can be added for the underlaying axes.plot
+            Additional arguments can be added for the underlying axes.plot
             object.
 
         Returns
@@ -280,7 +280,7 @@ class ComplexPlot(ABC):
         afunc : Callable
             A function to be called afunc(x).
         **kwargs : N/A
-            Additional arguements can be added for the underlaying axes.plot
+            Additional arguments can be added for the underlying axes.plot
             object.
 
         Returns
@@ -338,7 +338,7 @@ class ComplexPlot(ABC):
         start : complex, optional
             Start of the trace. The default is 0+0j.
         **kwargs : N/A
-            Additional arguements can be added for the underlaying axes.plot
+            Additional arguments can be added for the underlying axes.plot
             object.
 
         Raises
@@ -421,8 +421,8 @@ class ComplexPlot(ABC):
 class PlotPolar(ComplexPlot):
     """A class for creating a phasor plot using a polar projection."""
     
-    def __init__(self, title : str, axes : plt.Axes = None):
-        super().__init__(title = title, axes = axes, projection = 'polar')
+    def __init__(self, title : str, axes : plt.Axes = None, figsize : tuple = (8, 8)):
+        super().__init__(title = title, axes = axes, figsize = figsize, projection = 'polar')
     
     def add_phasor(self, value : complex, ref : tuple = (0,0), name : str = "", color : str = None, polar : bool = False, **kwargs):
         plot_quiver(axes = self._axes,
@@ -446,8 +446,8 @@ class PlotPhasor(ComplexPlot):
     The plot will have a centered x and y axis.
     """
     
-    def __init__(self, title : str, axes : plt.Axes = None):
-        super().__init__(title = title, axes = axes)
+    def __init__(self, title : str, axes : plt.Axes = None, figsize : tuple = (8, 8)):
+        super().__init__(title = title, axes = axes, figsize = figsize)
     
     def layout(self, axes : plt.Axes):
         #axes.axis('equal')
@@ -511,8 +511,8 @@ class RXplot(ComplexPlot):
 class BinaryPlot(ComplexPlot):
     """A class for creating a binary plot from a comtrade file."""
 
-    def __init__(self, title: str):
-        super().__init__(title)
+    def __init__(self, title: str, figsize : tuple = (8, 8)):
+        super().__init__(title, figsize = figsize)
 
     def add_binary(self, record : object, changed_signal_only : bool = True, **kwargs):
         binary_plot(self._axes, record, changed_signal_only, **kwargs)
