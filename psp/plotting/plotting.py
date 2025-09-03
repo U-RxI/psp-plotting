@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-from plotting.plotfunc import plot_quiver, plot_textbox, plot_aux_line, add_point, nplot, arrow
-from plotting.angle import plot_angle
+from .plotfunc import plot_quiver, plot_textbox, plot_aux_line, add_point, nplot, arrow
+from .angle import plot_angle
 from abc import ABC, abstractmethod
 from functools import partial
 from math import cos, sin, pi
