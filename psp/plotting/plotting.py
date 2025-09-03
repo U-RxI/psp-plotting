@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from .plotfunc import plot_quiver, plot_textbox, plot_aux_line, add_point, nplot, arrow, binary_plot
+from .plotfunc import plot_quiver, plot_textbox, plot_aux_line, add_point, nplot, arrow
 from .angle import plot_angle
 from abc import ABC, abstractmethod
 from functools import partial
