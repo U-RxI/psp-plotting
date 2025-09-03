@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from .plotfunc import plot_quiver, plot_textbox, plot_aux_line, add_point, nplot, arrow
+from .plotfunc import plot_quiver, plot_textbox, plot_aux_line, add_point, nplot, arrow, binary_plot
 from .angle import plot_angle
 from abc import ABC, abstractmethod
 from functools import partial
@@ -7,6 +7,7 @@ from math import cos, sin, pi
 from typing import Iterable, Callable
 import numpy as np
 from shapely.geometry import Polygon
+from .binary import binary_plot
 
 plt.ioff() # to prevent figure window from showing until plt.show() is called.
 
@@ -503,6 +504,21 @@ class RXplot(ComplexPlot):
         axes.set_xlabel(r'$R\;[\Omega]$')
         axes.set_ylabel(r'$X\;[\Omega]$')
         axes.grid(True)
+
+class BinaryPlot(ComplexPlot):
+    '''A class for creating a binary plot from a comtrade file.'''
+
+    def __init__(self, title: str):
+        super().__init__(title)
+
+    def add_binary(self, record : object, changed_signal_only : bool = True, **kwargs):
+        binary_plot(self._axes, record, changed_signal_only, **kwargs)
+
+    def layout(self, axes: plt.Axes):
+        axes.set_xlabel(r'Time [s]')
+        #self.fig.set_size_inches(15, 10)
+        #self.fig.subplots_adjust(left=0.2, top=0.95, bottom=0.05)
+
 
 """
 #Creating a new special plot

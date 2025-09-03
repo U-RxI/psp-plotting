@@ -149,20 +149,3 @@ def arrow(ax : plt.Axes, x : Iterable , y : Iterable, n : int = None):
                               arrowstyle='->', mutation_scale=15)
         ax.add_patch(ar)
 
-# def add_angle(radius, xrange):
-#     '''
-#     radius
-#     range -> start end
-#     arrow_start = False
-#     arrow_end = True
-#     head_scale = 1
-#     text = ""
-#     text_loc = Mid / Start / End
-#     text_loc = On / Over / Under
-#     '''
-#     def xy(r,phi):
-#         return r*np.cos(phi), r*np.sin(phi)
-    
-#     phi = np.linspace(xrange["start"], xrange['end'], 1000)
-    
-#     return xy(radius, phi)
