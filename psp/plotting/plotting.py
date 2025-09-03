@@ -1,13 +1,13 @@
 import matplotlib.pyplot as plt
-from .plotfunc import plot_quiver, plot_textbox, plot_aux_line, add_point, nplot, arrow
-from .angle import plot_angle
+from psp.plotting.plotfunc import plot_quiver, plot_textbox, plot_aux_line, add_point, nplot, arrow
+from psp.plotting.angle import plot_angle
 from abc import ABC, abstractmethod
 from functools import partial
 from math import cos, sin, pi
 from typing import Iterable, Callable
 import numpy as np
 from shapely.geometry import Polygon
-from .binary import binary_plot
+from psp.plotting.binary import binary_plot
 
 plt.ioff() # to prevent figure window from showing until plt.show() is called.
 
@@ -129,7 +129,7 @@ class ComplexPlot(ABC):
     info(additional=""):
         Prints the person's name and age.
     """
-    def __init__(self, title : str, axes : plt.Axes = None, projection : str = None):
+    def __init__(self, title : str, axes : plt.Axes = None, figsize : tuple = (8, 8), projection : str = None):
         """
         Constructs all the necessary attributes for the abstract class
         ComplexPlot object.
@@ -142,6 +142,9 @@ class ComplexPlot(ABC):
             Axes object to be used for the plotting in case the figure is
             created elsewhere. If no axes is given the class creates it own
             figures and axes. The default is None.
+        figsize : tuple
+            Tuple with the figure size in inches.
+            The default is (8, 8).
         projection : str, optional
             Parameter for the matplotlib.pyplot.figure.add_subplot function.
             Options: {None, 'aitoff', 'hammer', 'lambert', 'mollweide',
@@ -160,7 +163,7 @@ class ComplexPlot(ABC):
         if axes:
             self._axes = axes
         else:
-            self.fig = plt.figure(figsize=(8,8))
+            self.fig = plt.figure(figsize=figsize)
             self._axes = self.fig.add_subplot(111, projection=self.projection)
             self._axes.set_title(self.title)
             self.axes = FakeAx(self._axes)
