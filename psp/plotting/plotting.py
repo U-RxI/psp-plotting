@@ -496,8 +496,8 @@ class PlotPhasor(ComplexPlot):
 class RXplot(ComplexPlot):
     """A class for creating a complex plot."""
     
-    def __init__(self, title : str):
-        super().__init__(title)
+    def __init__(self, title : str, figsize : tuple = (8, 8)):
+        super().__init__(title, figsize = figsize)
     
     def layout(self, axes : plt.Axes):
         
