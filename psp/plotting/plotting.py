@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
-from pspplot.plotfunc import plot_quiver, plot_textbox, plot_aux_line, add_point, nplot, arrow
+from plotting.plotfunc import plot_quiver, plot_textbox, plot_aux_line, add_point, nplot, arrow
+from plotting.angle import plot_angle
 from abc import ABC, abstractmethod
 from functools import partial
 from math import cos, sin, pi
 from typing import Iterable, Callable
 import numpy as np
-from pspplot.angle import plot_angle
 from shapely.geometry import Polygon
 
 plt.ioff() # to prevent figure window from showing until plt.show() is called.
