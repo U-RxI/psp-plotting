@@ -1,1 +1,1 @@
-from .plotting import RXplot, PlotPhasor, PlotPolar, ComplexPlot
+from .plotting import RXplot, PlotPhasor, PlotPolar, ComplexPlot, BinaryPlot
