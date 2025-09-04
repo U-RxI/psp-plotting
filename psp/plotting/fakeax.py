@@ -1,4 +1,7 @@
+from functools import partial
+
 class FakeAx:
+    """A class to collect attributes set on a plt.Axes object in order to overwrite at a later stage."""
     def __init__(self, axes):
         self.actions = []
         self.axes = axes

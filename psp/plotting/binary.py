@@ -1,7 +1,11 @@
 import numpy as np
 from psp.plotting.fakeax import FakeAx
 
+from functools import partial
+
 default_kwargs = {'color' : 'Blue'}
+
+func = partial(getattr(self.axes, name), *args, **kwargs)
 
 class BinaryPlot():
     """A class for creating a binary plot from a comtrade file."""
