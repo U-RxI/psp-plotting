@@ -1,4 +1,5 @@
 from psp.plotting.complex_plot import ComplexPlot
+import matplotlib.pyplot as plt
 
 class RXplot(ComplexPlot):
     """A class for creating a complex plot."""
