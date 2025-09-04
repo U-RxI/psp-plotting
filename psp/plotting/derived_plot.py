@@ -1,3 +1,5 @@
+from psp.plotting.complex_plot import ComplexPlot
+
 class RXplot(ComplexPlot):
     """A class for creating a complex plot."""
     
