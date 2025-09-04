@@ -1,6 +1,40 @@
 import numpy as np
+from psp.plotting.fakeax import FakeAx
 
 default_kwargs = {'color' : 'Blue'}
+
+class BinaryPlot():
+    """A class for creating a binary plot from a comtrade file."""
+
+    def __init__(self, title: str, figsize : tuple = (8, 8)):
+        self.title = title
+        self.figsize = figsize
+ 
+        self.fig = plt.figure(figsize=self.figsize)
+        self._ax = self.fig.add_subplot(111)
+        self._ax.set_title(self.title)
+        self.ax = FakeAx(self._ax)
+
+    def add_binary(self, record : object, changed_signal_only : bool = True, **kwargs):
+        binary_plot(self._axes, record, changed_signal_only, **kwargs)
+   
+    def show(self):
+        """
+        Method to show the plot.
+
+        Returns
+        -------
+        None.
+
+        """
+        self.layout()
+        self.ax.overwrite()
+        plt.show()
+
+    def layout(self):
+        self._ax.set_xlabel(r'Time [s]')
+        #self.fig.set_size_inches(15, 10)
+        #self.fig.subplots_adjust(left=0.2, top=0.95, bottom=0.05)
 
 def _find_chunks(stream):
     # Identify non-zero elements

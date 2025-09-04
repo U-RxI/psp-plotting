@@ -1,1 +1,3 @@
-from .plotting import RXplot, PlotPhasor, PlotPolar, ComplexPlot, BinaryPlot
+from .derived_plot import RXplot, PhasorPlot, PolarPlot
+from .complex_plot import ComplexPlot
+from .binary import BinaryPlot
