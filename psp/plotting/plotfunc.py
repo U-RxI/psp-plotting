@@ -1,7 +1,9 @@
 from cmath import cos, sin
 from math import atan2, radians
 import matplotlib.pyplot as plt
+from matplotlib.patches import FancyArrowPatch
 from typing import Iterable
+import numpy as np
 
 # Styling
 ALPHA_BASE = 0.5 # For quiver
@@ -135,7 +137,7 @@ def arrow(ax : plt.Axes, x : Iterable , y : Iterable, n : int = None):
        >>> t = np.linspace(0, 2*np.pi, 100)
        >>> x = np.cos(t)
        >>> y = np.sin(t)
-       >>> ax.plot(x, y)
+       >>> line = ax.plot(x, y)
        >>> arrow(ax, x, y, n=5)
        >>> plt.show() #doctest: +SKIP
        """
