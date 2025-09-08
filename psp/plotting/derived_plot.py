@@ -1,4 +1,5 @@
 from psp.plotting.complex_plot import ComplexPlot
+from psp.plotting.plotfunc import plot_quiver
 import matplotlib.pyplot as plt
 
 class RXplot(ComplexPlot):
