@@ -284,7 +284,7 @@ class ComplexPlot(ABC):
         
         self.add_plot(real, imag, **kwargs)
 
-    def add_trajectory(self, Z : Iterable[complex], n : int = 1, **kwargs):
+    def add_trajectory(self, Z : Iterable[complex], n : int = None, **kwargs):
         nplot(self._axes, Z.real, Z.imag, **kwargs)
 
         arrow(self._axes, Z.real, Z.imag, n)
