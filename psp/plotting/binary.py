@@ -18,8 +18,8 @@ class BinaryPlot():
         self._ax.set_title(self.title)
         self.ax = FakeAx(self._ax)
 
-    def add_binary(self, record : object, changed_signal_only : bool = True, **kwargs):
-        binary_plot(self._ax, record, changed_signal_only, **kwargs)
+    def add_binary(self, record : object, changed_signal_only : bool = True, trigger_time_zero : bool = True, **kwargs):
+        binary_plot(self._ax, record, changed_signal_only, trigger_time_zero,  **kwargs)
    
     def show(self):
         """
@@ -96,14 +96,19 @@ def _binary_hbar(ax, name, stream, time, changed_signal_only=True, **kwargs):
         ax.barh(name, end - start, left=start, **kwargs)
 
 
-def binary_plot(ax, record, changed_signal_only=True, **kwargs):
+def binary_plot(ax, record, changed_signal_only=True, trigger_time_zero=True, **kwargs):
     idx = reversed(range(len(record.status)))
+
+    if trigger_time_zero:
+        time = record.time - record.trigger_time
+    else:
+        time = record.time
 
     for i in idx:
         _binary_hbar(ax=ax,
                      name=record.status_channel_ids[i],
                      stream=record.status[i],
-                     time=record.time,
+                     time=time,
                      changed_signal_only=changed_signal_only,
                      **kwargs)
 
