@@ -100,7 +100,7 @@ def binary_plot(ax, record, changed_signal_only=True, trigger_time_zero=True, **
     idx = reversed(range(len(record.status)))
 
     if trigger_time_zero:
-        time = record.time - record.trigger_time
+        time = np.array(record.time) - record.trigger_time
     else:
         time = record.time
 
