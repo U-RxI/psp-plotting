@@ -24,20 +24,21 @@ class PolarPlot(ComplexPlot):
     def __init__(self, title : str, axes : plt.Axes = None, figsize : tuple = (8, 8)):
         super().__init__(title = title, axes = axes, figsize = figsize, projection = 'polar')
     
-    def add_phasor(self, value : complex, ref : tuple = (0,0), name : str = "", color : str = None, polar : bool = False, **kwargs):
+    def add_phasor(self, value : complex, ref : tuple = (0,0), name : str = "", color : str = None, **kwargs):
         plot_quiver(axes = self._axes,
                     phasor = value,
                     ref = ref,
                     color = color,
                     text = name,
-                    polar = polar,
+                    polar = True,
                     alpha = 0.7,
                     **kwargs)   
         self.coordinates.append((value.real, value.imag))
     
     def layout(self, axes):
         axes.set_rlabel_position(90) 
-        axes.set_rlim(0, self._get_rmax() + 0.5)
+        axes.set_rlim(0, self._get_rmax())
+        axes.legend()
 
 
 class PhasorPlot(ComplexPlot):

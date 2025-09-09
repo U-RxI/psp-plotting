@@ -295,7 +295,8 @@ class ComplexPlot(ABC):
     def add_zone(self, zone : Polygon, **kwargs):
         nplot(self._axes, *zone.exterior.xy, **kwargs)
 
-        self.coordinates.append(*zone.exterior.xy)
+        for p in zip(*zone.exterior.xy):
+            self.coordinates.append(p)
 
     def _get_rmax(self):
         """
