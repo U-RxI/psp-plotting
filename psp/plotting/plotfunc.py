@@ -9,18 +9,18 @@ import numpy as np
 ALPHA_BASE = 0.5 # For quiver
 TEXT_FONTSIZE = 10
 
-def nplot(axes : plt.Axes, x : Iterable, y : Iterable, **kvargs):
+def nplot(ax : plt.Axes, x : Iterable, y : Iterable, **kvargs):
     #Normal plot
-    p = axes.plot(x, y, **kvargs)
+    p = ax.plot(x, y, **kvargs)
     return p
 
-def plot_textbox(axes : plt.Axes, x : float, y : float, s : str, box : dict = {}, **kwargs):
-    textbox = axes.text(x, y, s, fontsize = TEXT_FONTSIZE, alpha = 1, **kwargs)
+def plot_textbox(ax : plt.Axes, x : float, y : float, s : str, box : dict = {}, **kwargs):
+    textbox = ax.text(x, y, s, fontsize = TEXT_FONTSIZE, alpha = 1, **kwargs)
     if box:
         textbox.set_bbox(box)
     return textbox
     
-def plot_quiver(axes : plt.Axes, phasor : complex, ref : tuple, color : str, text : str, dx : float = 0, dy : float = 0, polar : bool = True, **kwargs):
+def plot_quiver(ax : plt.Axes, phasor : complex, ref : tuple, color : str, text : str, dx : float = 0, dy : float = 0, polar : bool = True, **kwargs):
     if polar:
         u = atan2(phasor.imag,phasor.real)
         v = abs(phasor)
@@ -28,20 +28,20 @@ def plot_quiver(axes : plt.Axes, phasor : complex, ref : tuple, color : str, tex
     else:
         coor = [ref[0], ref[1], phasor.real, phasor.imag]
     
-    quiver = axes.quiver(*coor,
+    quiver = ax.quiver(*coor,
                          color = color,
                          angles='xy',
                          scale_units = 'xy',
                          scale = 1,
                          **kwargs)
     if text:
-        plot_textbox(axes = axes,
+        plot_textbox(ax = ax,
                      x = quiver.U + dx,
                      y = quiver.V + dy,
                      s = text)
     return quiver 
 
-# def plot_quiver(axes : plt.Axes, phasor : complex, color : str, text : str, dx : float = 0, dy : float = 0, polar : bool = True, **kwargs):
+# def plot_quiver(ax : plt.Axes, phasor : complex, color : str, text : str, dx : float = 0, dy : float = 0, polar : bool = True, **kwargs):
 #     if polar:
 #         u = atan2(phasor.imag,phasor.real)
 #         v = abs(phasor)
@@ -62,7 +62,7 @@ def plot_quiver(axes : plt.Axes, phasor : complex, ref : tuple, color : str, tex
 #                  s = text)
 #     return quiver 
 
-def plot_aux_line(axes : plt.Axes, x0 : float = 0, y0 : float = 0, magnitude : float = 1, angle : float = 0, text : str = '', deg : bool = False, dx : float = 0, dy : float = 0, polar : bool = False, **kwargs):
+def plot_aux_line(ax : plt.Axes, x0 : float = 0, y0 : float = 0, magnitude : float = 1, angle : float = 0, text : str = '', deg : bool = False, dx : float = 0, dy : float = 0, polar : bool = False, **kwargs):
     if deg:
         _angle =  radians(angle)
     
@@ -78,19 +78,19 @@ def plot_aux_line(axes : plt.Axes, x0 : float = 0, y0 : float = 0, magnitude : f
         coor_text_x = (x1+x0)/2+dx
         coor_text_y = (y1+y0)/2+dy
         
-    line = axes.plot( *coor_line,'--k')
+    line = ax.plot( *coor_line,'--k')
     # plot textbox in middel of line
-    plot_textbox(axes = axes, x = coor_text_x, y = coor_text_y, s = text, **kwargs)
+    plot_textbox(ax = ax, x = coor_text_x, y = coor_text_y, s = text, **kwargs)
     return line
 
-def add_point(axes : plt.Axes, value:complex|tuple, **kwargs):
+def add_point(ax : plt.Axes, value:complex|tuple, **kwargs):
     if isinstance(value, complex):
         x = value.real
         y = value.imag
     if isinstance(value, tuple):
         x = value[0]
         y = value[1]
-    point = axes.plot(x, y, 'o', **kwargs)
+    point = ax.plot(x, y, 'o', **kwargs)
     return point
 
 def get_centroid(A : complex, B : complex, C : complex):

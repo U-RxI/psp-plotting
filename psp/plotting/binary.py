@@ -1,5 +1,6 @@
 import numpy as np
 from psp.plotting.fakeax import FakeAx
+import matplotlib.pyplot as plt
 
 from functools import partial
 
@@ -18,7 +19,7 @@ class BinaryPlot():
         self.ax = FakeAx(self._ax)
 
     def add_binary(self, record : object, changed_signal_only : bool = True, **kwargs):
-        binary_plot(self._axes, record, changed_signal_only, **kwargs)
+        binary_plot(self._ax, record, changed_signal_only, **kwargs)
    
     def show(self):
         """

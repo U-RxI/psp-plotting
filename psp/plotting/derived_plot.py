@@ -8,24 +8,24 @@ class RXplot(ComplexPlot):
     def __init__(self, title : str, figsize : tuple = (8, 8)):
         super().__init__(title, figsize = figsize)
     
-    def layout(self, axes : plt.Axes):
+    def layout(self, ax : plt.Axes):
         
-        axes.set_xlim([- self._get_rmax(), self._get_rmax()])
-        axes.set_ylim([- self._get_rmax(), self._get_rmax()])
+        ax.set_xlim([- self._get_rmax(), self._get_rmax()])
+        ax.set_ylim([- self._get_rmax(), self._get_rmax()])
         
-        axes.set_xlabel(r'$R\;[\Omega]$')
-        axes.set_ylabel(r'$X\;[\Omega]$')
-        axes.grid(True)
+        ax.set_xlabel(r'$R\;[\Omega]$')
+        ax.set_ylabel(r'$X\;[\Omega]$')
+        ax.grid(True)
         
 
 class PolarPlot(ComplexPlot):
     """A class for creating a phasor plot using a polar projection."""
     
-    def __init__(self, title : str, axes : plt.Axes = None, figsize : tuple = (8, 8)):
-        super().__init__(title = title, axes = axes, figsize = figsize, projection = 'polar')
+    def __init__(self, title : str, ax : plt.Axes = None, figsize : tuple = (8, 8)):
+        super().__init__(title = title, ax = ax, figsize = figsize, projection = 'polar')
     
     def add_phasor(self, value : complex, ref : tuple = (0,0), name : str = "", color : str = None, **kwargs):
-        plot_quiver(axes = self._axes,
+        plot_quiver(ax = self._ax,
                     phasor = value,
                     ref = ref,
                     color = color,
@@ -35,10 +35,10 @@ class PolarPlot(ComplexPlot):
                     **kwargs)   
         self.coordinates.append((value.real, value.imag))
     
-    def layout(self, axes):
-        axes.set_rlabel_position(90) 
-        axes.set_rlim(0, self._get_rmax())
-        axes.legend()
+    def layout(self, ax):
+        ax.set_rlabel_position(90)
+        ax.set_rlim(0, self._get_rmax())
+        ax.legend()
 
 
 class PhasorPlot(ComplexPlot):
@@ -47,48 +47,48 @@ class PhasorPlot(ComplexPlot):
     The plot will have a centered x and y axis.
     """
     
-    def __init__(self, title : str, axes : plt.Axes = None, figsize : tuple = (8, 8)):
-        super().__init__(title = title, axes = axes, figsize = figsize)
+    def __init__(self, title : str, ax : plt.Axes = None, figsize : tuple = (8, 8)):
+        super().__init__(title = title, ax = ax, figsize = figsize)
     
-    def layout(self, axes : plt.Axes):
-        #axes.axis('equal')
+    def layout(self, ax : plt.Axes):
+        #ax.axis('equal')
         
-        axes.set_xlim([- self._get_rmax(), self._get_rmax()])
-        axes.set_ylim([- self._get_rmax(), self._get_rmax()])
+        ax.set_xlim([- self._get_rmax(), self._get_rmax()])
+        ax.set_ylim([- self._get_rmax(), self._get_rmax()])
 
-        axes.set_aspect('equal', 'box')
+        ax.set_aspect('equal', 'box')
    
-        axes.grid(color='lightgrey', linestyle='-')
+        ax.grid(color='lightgrey', linestyle='-')
         
         
-        axes.spines['left'].set_position('zero')
-        axes.spines['bottom'].set_position('zero')
+        ax.spines['left'].set_position('zero')
+        ax.spines['bottom'].set_position('zero')
         
         #ax = ax_dict['center']
 
-        axes.spines[['left', 'bottom']].set_position('zero')
-        axes.spines[['top', 'right']].set_visible(False)
+        ax.spines[['left', 'bottom']].set_position('zero')
+        ax.spines[['top', 'right']].set_visible(False)
         
         
-        axes.set_xlabel('Re', fontweight='bold')
-        axes.set_ylabel('Im', fontweight='bold', rotation = 0)
+        ax.set_xlabel('Re', fontweight='bold')
+        ax.set_ylabel('Im', fontweight='bold', rotation = 0)
         
-        axes.spines['left'].set_linewidth(1)
-        axes.spines['left'].set_color('black')
-        axes.spines['left'].set_alpha(0.8)
-        axes.spines['bottom'].set_linewidth(1)
-        axes.spines['bottom'].set_color('black')
-        axes.spines['bottom'].set_alpha(0.8)
+        ax.spines['left'].set_linewidth(1)
+        ax.spines['left'].set_color('black')
+        ax.spines['left'].set_alpha(0.8)
+        ax.spines['bottom'].set_linewidth(1)
+        ax.spines['bottom'].set_color('black')
+        ax.spines['bottom'].set_alpha(0.8)
         
         # Remove duplicate zero in the ticks
         locs, labels = plt.yticks() # get current ticks
         locs = [n for n in locs if n != 0.0] # remove 0.0
-        axes.set_yticks(locs)
+        ax.set_yticks(locs)
         
         # Put axis label outside the plot
-        axes.xaxis.set_label_coords(0.5, -0.05)
-        axes.yaxis.set_label_coords(-0.05, 0.5)
+        ax.xaxis.set_label_coords(0.5, -0.05)
+        ax.yaxis.set_label_coords(-0.05, 0.5)
         
         # Alternative to centered axis
-        #axes.axhline(linewidth = 1, color ="black", linestyle ="--")
-        #axes.axvline(linewidth = 1, color ="black", linestyle ="--")
+        #ax.axhline(linewidth = 1, color ="black", linestyle ="--")
+        #ax.axvline(linewidth = 1, color ="black", linestyle ="--")

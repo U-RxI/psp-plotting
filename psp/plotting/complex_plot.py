@@ -17,7 +17,7 @@ plt.ioff() # to prevent figure window from showing until plt.show() is called.
 # Alle special plot definere deres standard layout
 # Ønsker man at overwrite eller added ved at bruge axis, så er der lavet en
 # axis til at opsamle alle metode cal til plt.Axes.
-# E.g. myplot.axes.set_xlim([-1, 5]) bliver gemt i FakeAx og bliver derefter
+# E.g. myplot.ax.set_xlim([-1, 5]) bliver gemt i FakeAx og bliver derefter
 # først kaldt når ComplexPlot.Show() kaldes.
       
 class ComplexPlot(ABC):    
@@ -36,7 +36,7 @@ class ComplexPlot(ABC):
     coordinates : list
         List of coordinates to be considered for setting the x and y limits of
         the plot.
-    axes : plt.Axes
+    ax : plt.Axes
         List of coordinates to be considered for setting the x and y limits of
         the plot.
     
@@ -46,7 +46,7 @@ class ComplexPlot(ABC):
     info(additional=""):
         Prints the person's name and age.
     """
-    def __init__(self, title : str, axes : plt.Axes = None, figsize : tuple = (8, 8), projection : str = None):
+    def __init__(self, title : str, ax : plt.Axes = None, figsize : tuple = (8, 8), projection : str = None):
         """
         Constructs all the necessary attributes for the abstract class
         ComplexPlot object.
@@ -55,7 +55,7 @@ class ComplexPlot(ABC):
         ----------
         title : str
             Title of the plot.
-        axes : plt.Axes
+        ax : plt.Axes
             Axes object to be used for the plotting in case the figure is
             created elsewhere. If no axes is given the class creates it own
             figures and axes. The default is None.
@@ -77,13 +77,13 @@ class ComplexPlot(ABC):
         self.projection = projection
         self.coordinates = []
 
-        if axes:
-            self._axes = axes
+        if ax:
+            self._ax = ax
         else:
             self.fig = plt.figure(figsize=figsize)
-            self._axes = self.fig.add_subplot(111, projection=self.projection)
-            self._axes.set_title(self.title)
-            self.axes = FakeAx(self._axes)
+            self._ax = self.fig.add_subplot(111, projection=self.projection)
+            self._ax.set_title(self.title)
+            self.ax = FakeAx(self._ax)
     
     ##########################################################################
     # plot functionalities
@@ -110,7 +110,7 @@ class ComplexPlot(ABC):
             Option for plotting on a axes with polar projection.
             The default is False, which is equal to a cartesian axes.
         **kwargs : N/A
-            Additional arguments can be added for the underlying axes.quiver
+            Additional arguments can be added for the underlying ax.quiver
             object.
 
         Returns
@@ -118,7 +118,7 @@ class ComplexPlot(ABC):
         None.
 
         """
-        plot_quiver(axes = self._axes,
+        plot_quiver(ax = self._ax,
                     phasor = value,
                     ref = ref,
                     color = color,
@@ -145,7 +145,7 @@ class ComplexPlot(ABC):
             Added a box around the text box. The default is {}.
             Specific any argument to add the box e.g. {'color' : 'red'}.
         **kwargs : TYPE
-            Additional arguments can be added for the underlying axes.text
+            Additional arguments can be added for the underlying ax.text
             object.
 
         Returns
@@ -153,7 +153,7 @@ class ComplexPlot(ABC):
         None.
 
         """
-        plot_textbox(self._axes,
+        plot_textbox(self._ax,
                      x = x,
                      y = y,
                      s = s,
@@ -172,7 +172,7 @@ class ComplexPlot(ABC):
             x and y coordinate for the point specified either a coordinate
             (x,y) or a complex number x+jy.
         **kwargs : TYPE
-            Additional arguments can be added for the underlying axes.plot
+            Additional arguments can be added for the underlying ax.plot
             object.
 
         Returns
@@ -180,7 +180,7 @@ class ComplexPlot(ABC):
         None.
 
         """
-        add_point(self._axes, 
+        add_point(self._ax,
                   value = value,
                   **kwargs)
         
@@ -197,7 +197,7 @@ class ComplexPlot(ABC):
         afunc : Callable
             A function to be called afunc(x).
         **kwargs : N/A
-            Additional arguments can be added for the underlying axes.plot
+            Additional arguments can be added for the underlying ax.plot
             object.
 
         Returns
@@ -207,7 +207,7 @@ class ComplexPlot(ABC):
         """
         x = arange
         y = list(map(afunc, arange))
-        nplot(self._axes,
+        nplot(self._ax,
               x = x,
               y = y,
               **kwargs)
@@ -216,7 +216,7 @@ class ComplexPlot(ABC):
             self.coordinates.append(p)
        
     def add_limit(self, magnitude, angle, x0 = 0, y0 = 0, text = '', deg = True, polar = False):
-        plot_aux_line(self._axes,
+        plot_aux_line(self._ax,
                       x0 = x0,
                       y0 = y0,
                       magnitude = magnitude,
@@ -231,7 +231,7 @@ class ComplexPlot(ABC):
         self.coordinates.append((x1, y1))
     
     def add_plot(self, x : Iterable, y : Iterable, **kwargs):
-        nplot(self._axes,
+        nplot(self._ax,
               x = x,
               y = y,
               **kwargs)
@@ -240,7 +240,7 @@ class ComplexPlot(ABC):
             self.coordinates.append(p)
 
     def add_angle(self, r : float, phi_start : float, phi_end : float, text: dict = {}, scale: float = 1, arrow_start: bool = False, arrow_end: bool = True):
-        plot_angle(self._axes, r, phi_start, phi_end, text, scale, arrow_start, arrow_end)
+        plot_angle(self._ax, r, phi_start, phi_end, text, scale, arrow_start, arrow_end)
                        
     def add_impedance_trace(self, imp: Iterable[complex], start : complex = 0+0j, **kwargs):
         """
@@ -255,7 +255,7 @@ class ComplexPlot(ABC):
         start : complex, optional
             Start of the trace. The default is 0+0j.
         **kwargs : N/A
-            Additional arguments can be added for the underlying axes.plot
+            Additional arguments can be added for the underlying ax.plot
             object.
 
         Raises
@@ -286,15 +286,15 @@ class ComplexPlot(ABC):
         self.add_plot(real, imag, **kwargs)
 
     def add_trajectory(self, Z : Iterable[complex], n : int = None, arrow : bool = True, **kwargs):
-        nplot(self._axes, Z.real, Z.imag, **kwargs)
+        nplot(self._ax, Z.real, Z.imag, **kwargs)
         if arrow:
-            plotfunc.arrow(self._axes, Z.real, Z.imag, n)
+            plotfunc.arrow(self._ax, Z.real, Z.imag, n)
 
         for p in zip(Z.real, Z.imag):
             self.coordinates.append(p)
 
     def add_zone(self, zone : Polygon, **kwargs):
-        nplot(self._axes, *zone.exterior.xy, **kwargs)
+        nplot(self._ax, *zone.exterior.xy, **kwargs)
 
         for p in zip(*zone.exterior.xy):
             self.coordinates.append(p)
@@ -325,8 +325,8 @@ class ComplexPlot(ABC):
         None.
 
         """
-        self.layout(self._axes)
-        self.axes.overwrite()
+        self.layout(self._ax)
+        self.ax.overwrite()
         plt.show()
 
      
@@ -356,9 +356,9 @@ class ComplexPlot(ABC):
 #myplot2.add_phasor(value=P2R(4, 45), color='Blue', name='V1', polar=False)
 #myplot2.add_phasor(value=P2R(6, 30), color='Red', name='I1',  polar=False)
 
-#myplot2.axes.set_xlabel('hejdff')
+#myplot2.ax.set_xlabel('hejdff')
 
-#myplot2.axes.set_xlim([-1, 6])
+#myplot2.ax.set_xlim([-1, 6])
 #myplot2.set_limits([-1, 10, -1, 10])
 #myplot2.add_phasor(value=P2R(6, 180), color='Red', name='I1',  polar=False)
 #myplot2.add_point(value=P2R(10, 30), color='Red', label='I1')
@@ -372,7 +372,7 @@ class ComplexPlot(ABC):
 #myplot3.add_impedance_trace([0+0j, 1+1j, 2+3j])
 #myplot3.add_textbox(1, 1, 'array', box={'color':'red'})
 #myplot3.add_angle(1, 0, np.pi/4)
-#myplot3.axes.set_aspect('equal', 'box')
+#myplot3.ax.set_aspect('equal', 'box')
 #myplot3.show()
 
 
