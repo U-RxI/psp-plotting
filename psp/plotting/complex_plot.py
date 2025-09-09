@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from psp.plotting.plotfunc import plot_quiver, plot_textbox, plot_aux_line, add_point, nplot, arrow
+import psp.plotting.plotfunc as plotfunc
 from psp.plotting.angle import plot_angle
 from abc import ABC, abstractmethod
 from math import cos, sin, pi
@@ -284,10 +285,10 @@ class ComplexPlot(ABC):
         
         self.add_plot(real, imag, **kwargs)
 
-    def add_trajectory(self, Z : Iterable[complex], n : int = None, **kwargs):
+    def add_trajectory(self, Z : Iterable[complex], n : int = None, arrow : bool = True, **kwargs):
         nplot(self._axes, Z.real, Z.imag, **kwargs)
-
-        arrow(self._axes, Z.real, Z.imag, n)
+        if arrow:
+            plotfunc.arrow(self._axes, Z.real, Z.imag, n)
 
         for p in zip(Z.real, Z.imag):
             self.coordinates.append(p)
