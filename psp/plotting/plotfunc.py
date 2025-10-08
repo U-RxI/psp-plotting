@@ -151,3 +151,31 @@ def arrow(ax : plt.Axes, x : Iterable , y : Iterable, n : int = None):
                               arrowstyle='->', mutation_scale=15)
         ax.add_patch(ar)
 
+def center_axis(ax : plt.Axes):
+    ax.spines['left'].set_position('zero')
+    ax.spines['bottom'].set_position('zero')
+
+    # ax = ax_dict['center']
+
+    ax.spines[['left', 'bottom']].set_position('zero')
+    ax.spines[['top', 'right']].set_visible(False)
+
+    ax.spines['left'].set_linewidth(1)
+    ax.spines['left'].set_color('black')
+    ax.spines['left'].set_alpha(0.8)
+    ax.spines['bottom'].set_linewidth(1)
+    ax.spines['bottom'].set_color('black')
+    ax.spines['bottom'].set_alpha(0.8)
+
+    # Remove duplicate zero in the ticks
+    locs, labels = plt.yticks()  # get current ticks
+    locs = [n for n in locs if n != 0.0]  # remove 0.0
+    ax.set_yticks(locs)
+
+    # Put axis label outside the plot
+    ax.xaxis.set_label_coords(0.5, -0.05)
+    ax.yaxis.set_label_coords(-0.05, 0.5)
+
+    # Alternative to centered axis
+    # ax.axhline(linewidth = 1, color ="black", linestyle ="--")
+    # ax.axvline(linewidth = 1, color ="black", linestyle ="--")

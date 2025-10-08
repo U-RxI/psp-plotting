@@ -1,5 +1,5 @@
 from psp.plotting.complex_plot import ComplexPlot
-from psp.plotting.plotfunc import plot_quiver
+from psp.plotting.plotfunc import plot_quiver, center_axis
 import matplotlib.pyplot as plt
 
 class RXplot(ComplexPlot):
@@ -49,46 +49,19 @@ class PhasorPlot(ComplexPlot):
     
     def __init__(self, title : str, ax : plt.Axes = None, figsize : tuple = (8, 8)):
         super().__init__(title = title, ax = ax, figsize = figsize)
+        self.opt_center_axis = True
     
     def layout(self, ax : plt.Axes):
-        #ax.axis('equal')
-        
+
         ax.set_xlim([- self._get_rmax(), self._get_rmax()])
         ax.set_ylim([- self._get_rmax(), self._get_rmax()])
 
         ax.set_aspect('equal', 'box')
-   
         ax.grid(color='lightgrey', linestyle='-')
-        
-        
-        ax.spines['left'].set_position('zero')
-        ax.spines['bottom'].set_position('zero')
-        
-        #ax = ax_dict['center']
 
-        ax.spines[['left', 'bottom']].set_position('zero')
-        ax.spines[['top', 'right']].set_visible(False)
-        
-        
         ax.set_xlabel('Re', fontweight='bold')
         ax.set_ylabel('Im', fontweight='bold', rotation = 0)
-        
-        ax.spines['left'].set_linewidth(1)
-        ax.spines['left'].set_color('black')
-        ax.spines['left'].set_alpha(0.8)
-        ax.spines['bottom'].set_linewidth(1)
-        ax.spines['bottom'].set_color('black')
-        ax.spines['bottom'].set_alpha(0.8)
-        
-        # Remove duplicate zero in the ticks
-        locs, labels = plt.yticks() # get current ticks
-        locs = [n for n in locs if n != 0.0] # remove 0.0
-        ax.set_yticks(locs)
-        
-        # Put axis label outside the plot
-        ax.xaxis.set_label_coords(0.5, -0.05)
-        ax.yaxis.set_label_coords(-0.05, 0.5)
-        
-        # Alternative to centered axis
-        #ax.axhline(linewidth = 1, color ="black", linestyle ="--")
-        #ax.axvline(linewidth = 1, color ="black", linestyle ="--")
+
+        if self.opt_center_axis:
+            center_axis(ax)
+
