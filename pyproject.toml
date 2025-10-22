@@ -1,7 +1,7 @@
 [project]
 name = "psp-plotting"
 version = "0.1.0"
-description = "Add your description here"
+description = "Library that use matplotlib.pyplot to create plots power system protection"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -9,3 +9,7 @@ dependencies = [
     "numpy>=2.3.2",
     "shapely>=2.1.1",
 ]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
