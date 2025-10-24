@@ -1,5 +1,11 @@
 import matplotlib.pyplot as plt
-from psp.plotting.plotfunc import plot_quiver, plot_textbox, plot_aux_line, add_point, nplot, arrow
+from psp.plotting.plotfunc import (
+    plot_quiver,
+    plot_textbox,
+    plot_aux_line,
+    add_point,
+    nplot,
+)
 import psp.plotting.plotfunc as plotfunc
 from psp.plotting.angle import plot_angle
 from abc import ABC, abstractmethod
@@ -9,7 +15,7 @@ import numpy as np
 from shapely.geometry import Polygon
 from psp.plotting.fakeax import FakeAx
 
-plt.ioff() # to prevent figure window from showing until plt.show() is called.
+plt.ioff()  # to prevent figure window from showing until plt.show() is called.
 
 # Concept
 # Specielle plots from RXplot, PhasorPlot og PolarPlot arver fra ComplexPlot
@@ -19,18 +25,19 @@ plt.ioff() # to prevent figure window from showing until plt.show() is called.
 # axis til at opsamle alle metode cal til plt.Axes.
 # E.g. myplot.ax.set_xlim([-1, 5]) bliver gemt i FakeAx og bliver derefter
 # først kaldt når ComplexPlot.Show() kaldes.
-      
-class ComplexPlot(ABC):    
+
+
+class ComplexPlot(ABC):
     """
     A class to represent a plot using complex numbers.
     This class utilize the matplotlib.pyplot module for plotting.
-    
+
     ...
-    
+
     Attributes
     ----------
     title : str
-        Title of the plot. 
+        Title of the plot.
     projection : str | None
         Parameter for the matplotlib.pyplot.figure.add_subplot function
     coordinates : list
@@ -39,14 +46,21 @@ class ComplexPlot(ABC):
     ax : plt.Axes
         List of coordinates to be considered for setting the x and y limits of
         the plot.
-    
-    
+
+
     Methods
     -------
     info(additional=""):
         Prints the person's name and age.
     """
-    def __init__(self, title : str, ax : plt.Axes = None, figsize : tuple = (8, 8), projection : str = None):
+
+    def __init__(
+        self,
+        title: str,
+        ax: plt.Axes = None,
+        figsize: tuple = (8, 8),
+        projection: str = None,
+    ):
         """
         Constructs all the necessary attributes for the abstract class
         ComplexPlot object.
@@ -84,12 +98,20 @@ class ComplexPlot(ABC):
             self._ax = self.fig.add_subplot(111, projection=self.projection)
             self._ax.set_title(self.title)
             self.ax = FakeAx(self._ax)
-    
+
     ##########################################################################
     # plot functionalities
     ##########################################################################
-    
-    def add_phasor(self, value : complex, ref : tuple = (0,0), name : str = "", color : str = None, polar : bool = False, **kwargs):
+
+    def add_phasor(
+        self,
+        value: complex,
+        ref: tuple = (0, 0),
+        name: str = "",
+        color: str = None,
+        polar: bool = False,
+        **kwargs,
+    ):
         """
         This functions adds a phasor to the plot (axes object).
 
@@ -118,18 +140,20 @@ class ComplexPlot(ABC):
         None.
 
         """
-        plot_quiver(ax = self._ax,
-                    phasor = value,
-                    ref = ref,
-                    color = color,
-                    text = name,
-                    polar = polar,
-                    alpha = 0.7,
-                    **kwargs)
-        
+        plot_quiver(
+            ax=self._ax,
+            phasor=value,
+            ref=ref,
+            color=color,
+            text=name,
+            polar=polar,
+            alpha=0.7,
+            **kwargs,
+        )
+
         self.coordinates.append((value.real, value.imag))
-        
-    def add_textbox(self, x : float, y : float, s : str, box : dict = {}, **kwargs):
+
+    def add_textbox(self, x: float, y: float, s: str, box: dict = {}, **kwargs):
         """
         Method for plotting a textbox.
 
@@ -153,16 +177,11 @@ class ComplexPlot(ABC):
         None.
 
         """
-        plot_textbox(self._ax,
-                     x = x,
-                     y = y,
-                     s = s,
-                     box = box,
-                     **kwargs)
- 
+        plot_textbox(self._ax, x=x, y=y, s=s, box=box, **kwargs)
+
         self.coordinates.append((x, y))
-        
-    def add_point(self, value : complex|tuple, **kwargs):
+
+    def add_point(self, value: complex | tuple, **kwargs):
         """
         Method to add a point to the plot.
 
@@ -180,13 +199,11 @@ class ComplexPlot(ABC):
         None.
 
         """
-        add_point(self._ax,
-                  value = value,
-                  **kwargs)
-        
+        add_point(self._ax, value=value, **kwargs)
+
         self.coordinates.append((value.real, value.imag))
-    
-    def add_line(self, arange : Iterable, afunc : Callable, **kwargs):
+
+    def add_line(self, arange: Iterable, afunc: Callable, **kwargs):
         """
         Method to add a line to the plot based on a range and function.
 
@@ -207,42 +224,49 @@ class ComplexPlot(ABC):
         """
         x = arange
         y = list(map(afunc, arange))
-        nplot(self._ax,
-              x = x,
-              y = y,
-              **kwargs)
+        nplot(self._ax, x=x, y=y, **kwargs)
 
         for p in zip(x, y):
             self.coordinates.append(p)
-       
-    def add_limit(self, magnitude, angle, x0 = 0, y0 = 0, text = '', deg = True, polar = False):
-        plot_aux_line(self._ax,
-                      x0 = x0,
-                      y0 = y0,
-                      magnitude = magnitude,
-                      angle = angle,
-                      text = text,
-                      deg = deg,
-                      polar = polar)
-        
+
+    def add_limit(self, magnitude, angle, x0=0, y0=0, text="", deg=True, polar=False):
+        plot_aux_line(
+            self._ax,
+            x0=x0,
+            y0=y0,
+            magnitude=magnitude,
+            angle=angle,
+            text=text,
+            deg=deg,
+            polar=polar,
+        )
+
         self.coordinates.append((x0, y0))
         x1 = x0 + magnitude * cos(angle / 180 * pi)
         y1 = x0 + magnitude * sin(angle / 180 * pi)
         self.coordinates.append((x1, y1))
-    
-    def add_plot(self, x : Iterable, y : Iterable, **kwargs):
-        nplot(self._ax,
-              x = x,
-              y = y,
-              **kwargs)
-        
+
+    def add_plot(self, x: Iterable, y: Iterable, **kwargs):
+        nplot(self._ax, x=x, y=y, **kwargs)
+
         for p in zip(x, y):
             self.coordinates.append(p)
 
-    def add_angle(self, r : float, phi_start : float, phi_end : float, text: dict = {}, scale: float = 1, arrow_start: bool = False, arrow_end: bool = True):
+    def add_angle(
+        self,
+        r: float,
+        phi_start: float,
+        phi_end: float,
+        text: dict = {},
+        scale: float = 1,
+        arrow_start: bool = False,
+        arrow_end: bool = True,
+    ):
         plot_angle(self._ax, r, phi_start, phi_end, text, scale, arrow_start, arrow_end)
-                       
-    def add_impedance_trace(self, imp: Iterable[complex], start : complex = 0+0j, **kwargs):
+
+    def add_impedance_trace(
+        self, imp: Iterable[complex], start: complex = 0 + 0j, **kwargs
+    ):
         """
         Method for adding an trace of impedance to the plot. The method is
         intended for plotting the combined positive sequence of multiple
@@ -268,24 +292,28 @@ class ComplexPlot(ABC):
         None.
 
         """
-        
+
         if isinstance(imp, complex):
             impedances = np.cumsum([start, imp])
         elif all(isinstance(d, complex) for d in imp):
             impedances = np.cumsum([start, *imp])
         else:
-            raise ValueError('The variable imp has to be either iterable[complex] or a complex number')
-            
+            raise ValueError(
+                "The variable imp has to be either iterable[complex] or a complex number"
+            )
+
         real = [x.real for x in impedances]
         imag = [x.imag for x in impedances]
-        
-        kwargs.setdefault('color', 'black')
-        kwargs.setdefault('linestyle', 'dashed')
-        kwargs.setdefault('label', 'impedance trace 1')
-        
+
+        kwargs.setdefault("color", "black")
+        kwargs.setdefault("linestyle", "dashed")
+        kwargs.setdefault("label", "impedance trace 1")
+
         self.add_plot(real, imag, **kwargs)
 
-    def add_trajectory(self, Z : Iterable[complex], n : int = None, arrow : bool = True, **kwargs):
+    def add_trajectory(
+        self, Z: Iterable[complex], n: int = None, arrow: bool = True, **kwargs
+    ):
         nplot(self._ax, Z.real, Z.imag, **kwargs)
         if arrow:
             plotfunc.arrow(self._ax, Z.real, Z.imag, n)
@@ -293,7 +321,7 @@ class ComplexPlot(ABC):
         for p in zip(Z.real, Z.imag):
             self.coordinates.append(p)
 
-    def add_zone(self, zone : Polygon, **kwargs):
+    def add_zone(self, zone: Polygon, **kwargs):
         nplot(self._ax, *zone.exterior.xy, **kwargs)
 
         for p in zip(*zone.exterior.xy):
@@ -313,9 +341,9 @@ class ComplexPlot(ABC):
         """
         xmax = max(map(abs, [x for x, y in self.coordinates]))
         ymax = max(map(abs, [y for x, y in self.coordinates]))
-        
+
         return max(xmax, ymax) * 1.1
-    
+
     def show(self):
         """
         Method to show the plot.
@@ -329,7 +357,6 @@ class ComplexPlot(ABC):
         self.ax.overwrite()
         plt.show()
 
-     
     ##########################################################################
     @abstractmethod
     def layout(self):
@@ -339,44 +366,42 @@ class ComplexPlot(ABC):
 # testing
 
 
-#def P2R(magnitude: float, angle_deg: float) -> complex:
+# def P2R(magnitude: float, angle_deg: float) -> complex:
 #    angle_rad = angle_deg / 180 * pi
 #    return magnitude * (cos(angle_rad) + 1j * sin(angle_rad))
 
-#myplot1 = RXplot(title = 'Polar plot')
-#myplot1.add_phasor(value=P2R(1, 180), color='Blue', name='V1')
-#myplot1.add_phasor(value=P2R(1, 30), color='Red', name='I1')
-#myplot1.add_limit(1, 85, text='test', polar = True)
+# myplot1 = RXplot(title = 'Polar plot')
+# myplot1.add_phasor(value=P2R(1, 180), color='Blue', name='V1')
+# myplot1.add_phasor(value=P2R(1, 30), color='Red', name='I1')
+# myplot1.add_limit(1, 85, text='test', polar = True)
 
-#myplot1.add_textbox(0.5, 0.5, 'Test')
-#myplot1.show()
-
-
-#myplot2 = PlotPhasor(title = 'Phasor plot')
-#myplot2.add_phasor(value=P2R(4, 45), color='Blue', name='V1', polar=False)
-#myplot2.add_phasor(value=P2R(6, 30), color='Red', name='I1',  polar=False)
-
-#myplot2.ax.set_xlabel('hejdff')
-
-#myplot2.ax.set_xlim([-1, 6])
-#myplot2.set_limits([-1, 10, -1, 10])
-#myplot2.add_phasor(value=P2R(6, 180), color='Red', name='I1',  polar=False)
-#myplot2.add_point(value=P2R(10, 30), color='Red', label='I1')
-#myplot2.add_line(range(4), lambda x : x*2)
-#myplot2.add_angle(radius=1, centX=0, centY=0, startangle=10, angle=230, text = '$\\Theta$')
-#myplot2.add_limit(8, 85, text='test', polar = False)
-#myplot2.show()
+# myplot1.add_textbox(0.5, 0.5, 'Test')
+# myplot1.show()
 
 
-#myplot3 = RXplot('test')
-#myplot3.add_impedance_trace([0+0j, 1+1j, 2+3j])
-#myplot3.add_textbox(1, 1, 'array', box={'color':'red'})
-#myplot3.add_angle(1, 0, np.pi/4)
-#myplot3.ax.set_aspect('equal', 'box')
-#myplot3.show()
+# myplot2 = PlotPhasor(title = 'Phasor plot')
+# myplot2.add_phasor(value=P2R(4, 45), color='Blue', name='V1', polar=False)
+# myplot2.add_phasor(value=P2R(6, 30), color='Red', name='I1',  polar=False)
 
+# myplot2.ax.set_xlabel('hejdff')
+
+# myplot2.ax.set_xlim([-1, 6])
+# myplot2.set_limits([-1, 10, -1, 10])
+# myplot2.add_phasor(value=P2R(6, 180), color='Red', name='I1',  polar=False)
+# myplot2.add_point(value=P2R(10, 30), color='Red', label='I1')
+# myplot2.add_line(range(4), lambda x : x*2)
+# myplot2.add_angle(radius=1, centX=0, centY=0, startangle=10, angle=230, text = '$\\Theta$')
+# myplot2.add_limit(8, 85, text='test', polar = False)
+# myplot2.show()
+
+
+# myplot3 = RXplot('test')
+# myplot3.add_impedance_trace([0+0j, 1+1j, 2+3j])
+# myplot3.add_textbox(1, 1, 'array', box={'color':'red'})
+# myplot3.add_angle(1, 0, np.pi/4)
+# myplot3.ax.set_aspect('equal', 'box')
+# myplot3.show()
 
 
 # Good source for fft
 # https://pysdr.org/content/frequency_domain.html
-

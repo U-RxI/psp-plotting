@@ -2,25 +2,30 @@ import numpy as np
 from psp.plotting.fakeax import FakeAx
 import matplotlib.pyplot as plt
 
-from functools import partial
+default_kwargs = {"color": "Blue"}
 
-default_kwargs = {'color' : 'Blue'}
 
-class BinaryPlot():
+class BinaryPlot:
     """A class for creating a binary plot from a comtrade file."""
 
-    def __init__(self, title: str, figsize : tuple = (8, 8)):
+    def __init__(self, title: str, figsize: tuple = (8, 8)):
         self.title = title
         self.figsize = figsize
- 
+
         self.fig = plt.figure(figsize=self.figsize)
         self._ax = self.fig.add_subplot(111)
         self._ax.set_title(self.title)
         self.ax = FakeAx(self._ax)
 
-    def add_binary(self, record : object, changed_signal_only : bool = True, trigger_time_zero : bool = True, **kwargs):
-        binary_plot(self._ax, record, changed_signal_only, trigger_time_zero,  **kwargs)
-   
+    def add_binary(
+        self,
+        record: object,
+        changed_signal_only: bool = True,
+        trigger_time_zero: bool = True,
+        **kwargs,
+    ):
+        binary_plot(self._ax, record, changed_signal_only, trigger_time_zero, **kwargs)
+
     def show(self):
         """
         Method to show the plot.
@@ -35,9 +40,10 @@ class BinaryPlot():
         plt.show()
 
     def layout(self):
-        self._ax.set_xlabel(r'Time [s]')
-        #self.fig.set_size_inches(15, 10)
-        #self.fig.subplots_adjust(left=0.2, top=0.95, bottom=0.05)
+        self._ax.set_xlabel(r"Time [s]")
+        # self.fig.set_size_inches(15, 10)
+        # self.fig.subplots_adjust(left=0.2, top=0.95, bottom=0.05)
+
 
 def _find_chunks(stream):
     # Identify non-zero elements
@@ -105,12 +111,15 @@ def binary_plot(ax, record, changed_signal_only=True, trigger_time_zero=True, **
         time = record.time
 
     for i in idx:
-        _binary_hbar(ax=ax,
-                     name=record.status_channel_ids[i],
-                     stream=record.status[i],
-                     time=time,
-                     changed_signal_only=changed_signal_only,
-                     **kwargs)
+        _binary_hbar(
+            ax=ax,
+            name=record.status_channel_ids[i],
+            stream=record.status[i],
+            time=time,
+            changed_signal_only=changed_signal_only,
+            **kwargs,
+        )
+
 
 def count_binary(record):
     total = len(record.status)

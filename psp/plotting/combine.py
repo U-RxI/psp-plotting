@@ -1,6 +1,8 @@
-class CombineFigure():
-    
-    def __init__(self, nrows : int, ncols : int, figsize : tuple = (8, 8)):
+import matplotlib.pyplot as plt
+
+
+class CombineFigure:
+    def __init__(self, nrows: int, ncols: int, figsize: tuple = (8, 8)):
         """
         Constructs all the necessary attributes for the CombineFigure object.
 
@@ -24,16 +26,16 @@ class CombineFigure():
         self.fig = plt.figure(figsize=self.figsize, layout="constrained")
         self.axes = []
         self.i = 0
-        
-    def add_axis(self, projection = None):
+
+    def add_axis(self, projection=None):
         self.i += 1
         ax = self.fig.add_subplot(self.nrows, self.ncols, self.i, projection=projection)
         self.axes.append(ax)
         return ax
-        
+
     def _maximize_window(self):
         """
-        Method to maximize the figure. 
+        Method to maximize the figure.
 
         Returns
         -------
@@ -42,8 +44,8 @@ class CombineFigure():
         """
         figManager = plt.get_current_fig_manager()
         figManager.window.showMaximized()
-    
-    def show(self, maximize : bool = False):
+
+    def show(self, maximize: bool = False):
         """
         Method to show the stored plot.
 
