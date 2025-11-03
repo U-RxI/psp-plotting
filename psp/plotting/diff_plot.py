@@ -17,6 +17,7 @@ class DiffBiasPlot(ABC):
     add_point = ComplexPlot.add_point
     add_textbox = ComplexPlot.add_textbox
     add_plot = ComplexPlot.add_plot
-    _get_rmax = ComplexPlot._get_rmax
+    _get_xmax = ComplexPlot._get_xmax
+    _get_ymax = ComplexPlot._get_ymax
     show = ComplexPlot.show
     layout = ComplexPlot.layout
