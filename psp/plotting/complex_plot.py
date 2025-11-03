@@ -327,7 +327,7 @@ class ComplexPlot(ABC):
         for p in zip(*zone.exterior.xy):
             self.coordinates.append(p)
 
-    def _get_rmax(self, scale:float = 1.1):
+    def _get_rmax(self, scale: float = 1.1):
         """
         Method to return 110% of the maximum x and y values use for the plot.
         This value can be used to set the x and y plot limit for the plot

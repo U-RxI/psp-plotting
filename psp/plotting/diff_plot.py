@@ -3,6 +3,7 @@ from psp.plotting.fakeax import FakeAx
 from abc import ABC
 import matplotlib.pyplot as plt
 
+
 class DiffBiasPlot(ABC):
     def __init__(self, title: str, figsize: tuple = (8, 8)):
         self.title = title
