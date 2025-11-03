@@ -346,6 +346,42 @@ class ComplexPlot(ABC):
 
         return max(xmax, ymax) * scale
 
+    def _get_xmax(self, scale: float = 1.1):
+        """
+        Method to return 110% of the maximum x values use for the plot.
+        This value can be used to set the x plot limit for the plot
+        automatically.
+
+        Returns
+        -------
+        float
+            Maximum x value used in the plot times 110% (default).
+        scale
+            Set the scale that x value is multiplied with. The default is 1.1.
+
+        """
+        xmax = max(map(abs, [x for x, y in self.coordinates]))
+
+        return xmax * scale
+
+    def _get_ymax(self, scale: float = 1.1):
+        """
+        Method to return 110% of the maximum y values use for the plot.
+        This value can be used to set the y plot limit for the plot
+        automatically.
+
+        Returns
+        -------
+        float
+            Maximum y value used in the plot times 110% (default).
+        scale
+            Set the scale that x value is multiplied with. The default is 1.1.
+
+        """
+        ymax = max(map(abs, [y for x, y in self.coordinates]))
+
+        return ymax * scale
+
     def show(self):
         """
         Method to show the plot.
