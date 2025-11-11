@@ -6,6 +6,7 @@ class FakeAx:
 
     def __init__(self, axes):
         self.actions = []
+        self.historic = []
         self.axes = axes
 
     def __getattr__(self, name):
@@ -17,9 +18,15 @@ class FakeAx:
                 return method
             func = partial(getattr(self.axes, name), *args, **kwargs)
             self.actions.append(func)
+            self.historic.append((name, args, kwargs))
 
         return method
 
     def overwrite(self):
         for action in self.actions:
             action()
+
+    def copy(self, ax):
+        for name, args, kwargs in self.historic:
+            func = getattr(ax, name)
+            func(*args, **kwargs)
