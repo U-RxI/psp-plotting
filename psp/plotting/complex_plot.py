@@ -93,13 +93,12 @@ class ComplexPlot(ABC):
 
         if ax:
             self._ax = ax
-            self.ax = FakeAx(self._ax)
         else:
             self.fig = plt.figure(figsize=figsize)
             self._ax = self.fig.add_subplot(111, projection=self.projection)
-            self._ax.set_title(self.title)
-            self.ax = FakeAx(self._ax)
-
+        self.ax = FakeAx(self._ax)
+        self.ax.set_title(self.title)
+        self._layout()
     ##########################################################################
     # plot functionalities
     ##########################################################################
@@ -383,7 +382,7 @@ class ComplexPlot(ABC):
 
         return ymax * scale
 
-    def show(self):
+    def show(self, post_actions = True):
         """
         Method to show the plot.
 
@@ -392,55 +391,17 @@ class ComplexPlot(ABC):
         None.
 
         """
-        self.layout(self.ax)
+        if post_actions:
+            self._post_actions()
+
         self.ax.overwrite()
         plt.show()
 
     ##########################################################################
     @abstractmethod
-    def layout(self):
+    def _layout(self):
         pass
 
-
-# testing
-
-
-# def P2R(magnitude: float, angle_deg: float) -> complex:
-#    angle_rad = angle_deg / 180 * pi
-#    return magnitude * (cos(angle_rad) + 1j * sin(angle_rad))
-
-# myplot1 = RXplot(title = 'Polar plot')
-# myplot1.add_phasor(value=P2R(1, 180), color='Blue', name='V1')
-# myplot1.add_phasor(value=P2R(1, 30), color='Red', name='I1')
-# myplot1.add_limit(1, 85, text='test', polar = True)
-
-# myplot1.add_textbox(0.5, 0.5, 'Test')
-# myplot1.show()
-
-
-# myplot2 = PlotPhasor(title = 'Phasor plot')
-# myplot2.add_phasor(value=P2R(4, 45), color='Blue', name='V1', polar=False)
-# myplot2.add_phasor(value=P2R(6, 30), color='Red', name='I1',  polar=False)
-
-# myplot2.ax.set_xlabel('hejdff')
-
-# myplot2.ax.set_xlim([-1, 6])
-# myplot2.set_limits([-1, 10, -1, 10])
-# myplot2.add_phasor(value=P2R(6, 180), color='Red', name='I1',  polar=False)
-# myplot2.add_point(value=P2R(10, 30), color='Red', label='I1')
-# myplot2.add_line(range(4), lambda x : x*2)
-# myplot2.add_angle(radius=1, centX=0, centY=0, startangle=10, angle=230, text = '$\\Theta$')
-# myplot2.add_limit(8, 85, text='test', polar = False)
-# myplot2.show()
-
-
-# myplot3 = RXplot('test')
-# myplot3.add_impedance_trace([0+0j, 1+1j, 2+3j])
-# myplot3.add_textbox(1, 1, 'array', box={'color':'red'})
-# myplot3.add_angle(1, 0, np.pi/4)
-# myplot3.ax.set_aspect('equal', 'box')
-# myplot3.show()
-
-
-# Good source for fft
-# https://pysdr.org/content/frequency_domain.html
+    @abstractmethod
+    def _post_actions(self):
+        pass

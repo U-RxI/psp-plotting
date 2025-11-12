@@ -20,4 +20,4 @@ class DiffBiasPlot(ABC):
     _get_xmax = ComplexPlot._get_xmax
     _get_ymax = ComplexPlot._get_ymax
     show = ComplexPlot.show
-    layout = ComplexPlot.layout
+    _layout = ComplexPlot._layout

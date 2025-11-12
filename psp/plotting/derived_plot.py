@@ -9,13 +9,18 @@ class RXplot(ComplexPlot):
     def __init__(self, title: str, ax: plt.Axes = None,  figsize: tuple = (8, 8)):
         super().__init__(title, ax=ax, figsize=figsize)
 
-    def layout(self, ax: plt.Axes):
-        ax.set_xlim([-self._get_rmax(), self._get_rmax()])
-        ax.set_ylim([-self._get_rmax(), self._get_rmax()])
+    def autoscale(self):
+        self.ax.set_xlim([- self._get_rmax(), self._get_rmax()])
+        self.ax.set_ylim([- self._get_rmax(), self._get_rmax()])
 
-        ax.set_xlabel(r"$R\;[\Omega]$")
-        ax.set_ylabel(r"$X\;[\Omega]$")
-        ax.grid(True)
+    def _post_actions(self):
+        self.ax.legend()
+        self.autoscale()
+
+    def _layout(self):
+        self.ax.set_xlabel(r"$R\;[\Omega]$")
+        self.ax.set_ylabel(r"$X\;[\Omega]$")
+        self.ax.grid(True)
 
 
 class PolarPlot(ComplexPlot):
@@ -44,10 +49,15 @@ class PolarPlot(ComplexPlot):
         )
         self.coordinates.append((value.real, value.imag))
 
-    def layout(self, ax):
-        ax.set_rlabel_position(90)
-        ax.set_rlim(0, self._get_rmax())
-        ax.legend()
+    def autoscale(self):
+        self.ax.set_rlim(0, self._get_rmax())
+
+    def _post_actions(self):
+        self.ax.legend()
+        self.autoscale()
+
+    def _layout(self):
+        self.ax.set_rlabel_position(90)
 
 
 class PhasorPlot(ComplexPlot):
@@ -60,15 +70,21 @@ class PhasorPlot(ComplexPlot):
         super().__init__(title=title, ax=ax, figsize=figsize)
         self.opt_center_axis = True
 
-    def layout(self, ax: plt.Axes):
-        ax.set_xlim([-self._get_rmax(), self._get_rmax()])
-        ax.set_ylim([-self._get_rmax(), self._get_rmax()])
+    def autoscale(self):
+        self.ax.set_xlim([-self._get_rmax(), self._get_rmax()])
+        self.ax.set_ylim([-self._get_rmax(), self._get_rmax()])
 
-        ax.set_aspect("equal", "box")
-        ax.grid(color="lightgrey", linestyle="-")
+    def _post_actions(self):
+        self.ax.legend()
+        self.autoscale()
 
-        ax.set_xlabel("Re", fontweight="bold")
-        ax.set_ylabel("Im", fontweight="bold", rotation=0)
+    def _layout(self):
+
+        self.ax.set_aspect("equal", "box")
+        self.grid(color="lightgrey", linestyle="-")
+
+        self.set_xlabel("Re", fontweight="bold")
+        self.set_ylabel("Im", fontweight="bold", rotation=0)
 
         if self.opt_center_axis:
             center_axis(ax)
@@ -79,9 +95,13 @@ class TimeSeriesPlot(ComplexPlot):
     def __init__(self, title: str, ax: plt.Axes = None, figsize: tuple = (8, 8)):
         super().__init__(title, ax=ax, figsize=figsize)
 
-    def layout(self, ax: plt.Axes):
-        ax.set_xlim([-self._get_rmax(), self._get_rmax()])
-        ax.set_ylim([-self._get_rmax(), self._get_rmax()])
+    def autoscale(self):
+        self.ax.autoscale()
 
+    def _post_actions(self):
+        self.ax.legend(
+        self.autoscale()
+
+    def _layout(self, ax: plt.Axes):
         ax.set_xlabel(r"Time [s]")
         ax.grid(True)

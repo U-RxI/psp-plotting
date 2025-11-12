@@ -14,8 +14,9 @@ class BinaryPlot:
 
         self.fig = plt.figure(figsize=self.figsize)
         self._ax = self.fig.add_subplot(111)
-        self._ax.set_title(self.title)
         self.ax = FakeAx(self._ax)
+        self.ax.set_title(self.title)
+        self._layout()
 
     def add_binary(
         self,
@@ -35,12 +36,12 @@ class BinaryPlot:
         None.
 
         """
-        self.layout()
+
         self.ax.overwrite()
         plt.show()
 
-    def layout(self):
-        self._ax.set_xlabel(r"Time [s]")
+    def _layout(self):
+        self.ax.set_xlabel(r"Time [s]")
         # self.fig.set_size_inches(15, 10)
         # self.fig.subplots_adjust(left=0.2, top=0.95, bottom=0.05)
 
