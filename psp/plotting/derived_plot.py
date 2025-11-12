@@ -83,5 +83,5 @@ class TimeSeriesPlot(ComplexPlot):
         ax.set_xlim([-self._get_rmax(), self._get_rmax()])
         ax.set_ylim([-self._get_rmax(), self._get_rmax()])
 
-        ax.set_ylabel(r"Time [s]")
+        ax.set_xlabel(r"Time [s]")
         ax.grid(True)
