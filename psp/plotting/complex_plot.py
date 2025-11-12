@@ -391,7 +391,7 @@ class ComplexPlot(ABC):
         None.
 
         """
-        self.layout(self._ax)
+        self.layout(self.ax)
         self.ax.overwrite()
         plt.show()
 
