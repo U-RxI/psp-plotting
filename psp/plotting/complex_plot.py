@@ -141,7 +141,7 @@ class ComplexPlot(ABC):
 
         """
         plot_quiver(
-            ax=self._ax,
+            ax=self.ax,
             phasor=value,
             ref=ref,
             color=color,
@@ -177,7 +177,7 @@ class ComplexPlot(ABC):
         None.
 
         """
-        plot_textbox(self._ax, x=x, y=y, s=s, box=box, **kwargs)
+        plot_textbox(self.ax, x=x, y=y, s=s, box=box, **kwargs)
 
         self.coordinates.append((x, y))
 
@@ -199,7 +199,7 @@ class ComplexPlot(ABC):
         None.
 
         """
-        add_point(self._ax, value=value, **kwargs)
+        add_point(self.ax, value=value, **kwargs)
 
         self.coordinates.append((value.real, value.imag))
 
@@ -224,14 +224,14 @@ class ComplexPlot(ABC):
         """
         x = arange
         y = list(map(afunc, arange))
-        nplot(self._ax, x=x, y=y, **kwargs)
+        nplot(self.ax, x=x, y=y, **kwargs)
 
         for p in zip(x, y):
             self.coordinates.append(p)
 
     def add_limit(self, magnitude, angle, x0=0, y0=0, text="", deg=True, polar=False):
         plot_aux_line(
-            self._ax,
+            self.ax,
             x0=x0,
             y0=y0,
             magnitude=magnitude,
@@ -247,7 +247,7 @@ class ComplexPlot(ABC):
         self.coordinates.append((x1, y1))
 
     def add_plot(self, x: Iterable, y: Iterable, **kwargs):
-        nplot(self._ax, x=x, y=y, **kwargs)
+        nplot(self.ax, x=x, y=y, **kwargs)
 
         for p in zip(x, y):
             self.coordinates.append(p)
@@ -262,7 +262,7 @@ class ComplexPlot(ABC):
         arrow_start: bool = False,
         arrow_end: bool = True,
     ):
-        plot_angle(self._ax, r, phi_start, phi_end, text, scale, arrow_start, arrow_end)
+        plot_angle(self.ax, r, phi_start, phi_end, text, scale, arrow_start, arrow_end)
 
     def add_impedance_trace(
         self, imp: Iterable[complex], start: complex = 0 + 0j, **kwargs
@@ -314,7 +314,7 @@ class ComplexPlot(ABC):
     def add_trajectory(
         self, Z: Iterable[complex], n: int = None, arrow: bool = True, **kwargs
     ):
-        nplot(self._ax, Z.real, Z.imag, **kwargs)
+        nplot(self.ax, Z.real, Z.imag, **kwargs)
         if arrow:
             plotfunc.arrow(self._ax, Z.real, Z.imag, n)
 
@@ -322,7 +322,7 @@ class ComplexPlot(ABC):
             self.coordinates.append(p)
 
     def add_zone(self, zone: Polygon, **kwargs):
-        nplot(self._ax, *zone.exterior.xy, **kwargs)
+        nplot(self.ax, *zone.exterior.xy, **kwargs)
 
         for p in zip(*zone.exterior.xy):
             self.coordinates.append(p)
