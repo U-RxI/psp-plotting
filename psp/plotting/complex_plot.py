@@ -93,6 +93,7 @@ class ComplexPlot(ABC):
 
         if ax:
             self._ax = ax
+            self.ax = FakeAx(self._ax)
         else:
             self.fig = plt.figure(figsize=figsize)
             self._ax = self.fig.add_subplot(111, projection=self.projection)
