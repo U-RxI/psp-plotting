@@ -23,10 +23,10 @@ class FakeAx:
         return method
 
     def overwrite(self):
-        for action in self.actions:
+        for action in reversed(self.actions):
             action()
 
     def copy(self, ax):
-        for name, args, kwargs in self.historic:
+        for name, args, kwargs in reversed(self.historic):
             func = getattr(ax, name)
             func(*args, **kwargs)
