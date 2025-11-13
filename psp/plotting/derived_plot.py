@@ -103,5 +103,5 @@ class TimeSeriesPlot(ComplexPlot):
         self.autoscale()
 
     def _layout(self):
-        ax.set_xlabel(r"Time [s]")
-        ax.grid(True)
+        self.ax.set_xlabel(r"Time [s]")
+        self.ax.grid(True)
