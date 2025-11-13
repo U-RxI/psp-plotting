@@ -99,7 +99,7 @@ class TimeSeriesPlot(ComplexPlot):
         self.ax.autoscale()
 
     def _post_actions(self):
-        self.ax.legend(
+        self.ax.legend()
         self.autoscale()
 
     def _layout(self, ax: plt.Axes):
