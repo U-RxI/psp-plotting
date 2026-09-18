@@ -13,7 +13,7 @@ psp-plotting is a Python library for creating power system protection plots usin
 Use the package manager uv[uv](https://docs.astral.sh/uv/) to install pspplot.
 
 ```bash
-uv pip install "git+https://github.com/U-RxI/psp-plot"
+uv pip install "git+https://github.com/U-RxI/psp-plotting"
 ```
 
 ## Usage

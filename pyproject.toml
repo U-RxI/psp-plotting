@@ -1,6 +1,6 @@
 [project]
 name = "psp-plotting"
-version = "0.1.0"
+version = "0.1.1"
 description = "Library that use matplotlib.pyplot to create plots power system protection"
 readme = "README.md"
 requires-python = ">=3.12"

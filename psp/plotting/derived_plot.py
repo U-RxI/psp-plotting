@@ -81,22 +81,19 @@ class PhasorPlot(ComplexPlot):
     def _layout(self):
 
         self.ax.set_aspect("equal", "box")
-        self.grid(color="lightgrey", linestyle="-")
+        self.ax.grid(color="lightgrey", linestyle="-")
 
-        self.set_xlabel("Re", fontweight="bold")
-        self.set_ylabel("Im", fontweight="bold", rotation=0)
+        self.ax.set_xlabel("Re", fontweight="bold")
+        self.ax.set_ylabel("Im", fontweight="bold", rotation=0)
 
-        if self.opt_center_axis:
-            center_axis(ax)
-
+        if self.ax.opt_center_axis:
+            center_axis(self.ax)
+        
 class TimeSeriesPlot(ComplexPlot):
     """A class for creating a time series plot."""
 
     def __init__(self, title: str, ax: plt.Axes = None, figsize: tuple = (8, 8)):
         super().__init__(title, ax=ax, figsize=figsize)
-
-    def autoscale(self):
-        self.ax.autoscale()
 
     def _post_actions(self):
         self.ax.legend()
