@@ -14,7 +14,7 @@ class RXplot(ComplexPlot):
         self.ax.set_ylim([-self._get_rmax(), self._get_rmax()])
 
     def _post_actions(self):
-        self.ax.legend()
+        self._add_legend()
         self.autoscale()
 
     def _layout(self):
@@ -47,13 +47,13 @@ class PolarPlot(ComplexPlot):
             alpha=0.7,
             **kwargs,
         )
-        self.coordinates.append(abs(value))
+        self.coordinates.append((value.real, value.imag))
 
     def autoscale(self):
         self.ax.set_rlim(0, self._get_rmax())
 
     def _post_actions(self):
-        self.ax.legend()
+        self._add_legend()
         self.autoscale()
 
     def _layout(self):
@@ -75,7 +75,7 @@ class PhasorPlot(ComplexPlot):
         self.ax.set_ylim([-self._get_rmax(), self._get_rmax()])
 
     def _post_actions(self):
-        self.ax.legend()
+        self._add_legend()
         self.autoscale()
 
     def _layout(self):
@@ -96,7 +96,7 @@ class TimeSeriesPlot(ComplexPlot):
         super().__init__(title, ax=ax, figsize=figsize)
 
     def _post_actions(self):
-        self.ax.legend()
+        self._add_legend()
         self.autoscale()
 
     def _layout(self):
