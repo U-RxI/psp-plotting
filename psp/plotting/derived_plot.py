@@ -47,7 +47,7 @@ class PolarPlot(ComplexPlot):
             alpha=0.7,
             **kwargs,
         )
-        self.coordinates.append((value.real, value.imag))
+        self.coordinates.append(abs(value))
 
     def autoscale(self):
         self.ax.set_rlim(0, self._get_rmax())
