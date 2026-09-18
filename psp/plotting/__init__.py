@@ -4,4 +4,11 @@ from .binary import BinaryPlot
 
 __version__ = "0.1.0"
 
-__all__ = ["RXplot", "PhasorPlot", "PolarPlot", "ComplexPlot", "TimeSeriesPlot","BinaryPlot"]
+__all__ = [
+    "RXplot",
+    "PhasorPlot",
+    "PolarPlot",
+    "ComplexPlot",
+    "TimeSeriesPlot",
+    "BinaryPlot",
+]

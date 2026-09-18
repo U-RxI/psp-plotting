@@ -88,9 +88,7 @@ class FakeAx:
 
         if not callable(method):
             formatted_path = self._format_path(path)
-            raise TypeError(
-                f"{formatted_path} exists, but it is not callable"
-            )
+            raise TypeError(f"{formatted_path} exists, but it is not callable")
 
     @staticmethod
     def _format_path(path):
@@ -112,9 +110,7 @@ class FakeAx:
 
             if not callable(method):
                 formatted_path = self._format_path(path)
-                raise TypeError(
-                    f"{formatted_path} is not callable on the target Axes"
-                )
+                raise TypeError(f"{formatted_path} is not callable on the target Axes")
 
             method(*args, **kwargs)
 
@@ -132,31 +128,31 @@ class FakeAx:
 
 
 # class FakeAx:
-    # """A class to collect attributes set on a plt.Axes object in order to overwrite at a later stage."""
+# """A class to collect attributes set on a plt.Axes object in order to overwrite at a later stage."""
 
-    # def __init__(self, axes):
-        # self.actions = []
-        # self.historic = []
-        # self.axes = axes
+# def __init__(self, axes):
+# self.actions = []
+# self.historic = []
+# self.axes = axes
 
-    # def __getattr__(self, name):
-        # def method(*args, **kwargs):
-            # try:
-                # getattr(self.axes, name)
-            # except AttributeError:
-                # print(f"Method *{name}* do not exist in matplotlib.Axes")
-                # return method
-            # func = partial(getattr(self.axes, name), *args, **kwargs)
-            # self.actions.append(func)
-            # self.historic.append((name, args, kwargs))
+# def __getattr__(self, name):
+# def method(*args, **kwargs):
+# try:
+# getattr(self.axes, name)
+# except AttributeError:
+# print(f"Method *{name}* do not exist in matplotlib.Axes")
+# return method
+# func = partial(getattr(self.axes, name), *args, **kwargs)
+# self.actions.append(func)
+# self.historic.append((name, args, kwargs))
 
-        # return method
+# return method
 
-    # def overwrite(self):
-        # for action in self.actions:
-            # action()
+# def overwrite(self):
+# for action in self.actions:
+# action()
 
-    # def copy(self, ax):
-        # for name, args, kwargs in self.historic:
-            # func = getattr(ax, name)
-            # func(*args, **kwargs)
+# def copy(self, ax):
+# for name, args, kwargs in self.historic:
+# func = getattr(ax, name)
+# func(*args, **kwargs)

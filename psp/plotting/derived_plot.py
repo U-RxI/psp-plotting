@@ -6,12 +6,12 @@ import matplotlib.pyplot as plt
 class RXplot(ComplexPlot):
     """A class for creating a complex plot."""
 
-    def __init__(self, title: str, ax: plt.Axes = None,  figsize: tuple = (8, 8)):
+    def __init__(self, title: str, ax: plt.Axes = None, figsize: tuple = (8, 8)):
         super().__init__(title, ax=ax, figsize=figsize)
 
     def autoscale(self):
-        self.ax.set_xlim([- self._get_rmax(), self._get_rmax()])
-        self.ax.set_ylim([- self._get_rmax(), self._get_rmax()])
+        self.ax.set_xlim([-self._get_rmax(), self._get_rmax()])
+        self.ax.set_ylim([-self._get_rmax(), self._get_rmax()])
 
     def _post_actions(self):
         self.ax.legend()
@@ -79,7 +79,6 @@ class PhasorPlot(ComplexPlot):
         self.autoscale()
 
     def _layout(self):
-
         self.ax.set_aspect("equal", "box")
         self.ax.grid(color="lightgrey", linestyle="-")
 
@@ -88,7 +87,8 @@ class PhasorPlot(ComplexPlot):
 
         if self.ax.opt_center_axis:
             center_axis(self.ax)
-        
+
+
 class TimeSeriesPlot(ComplexPlot):
     """A class for creating a time series plot."""
 

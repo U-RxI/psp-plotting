@@ -138,7 +138,7 @@ def count_binary(record):
 
 
 def binary_start(rec, bin_id):
-    """ Function to find the index for when a binary signal goes high (1)."""
+    """Function to find the index for when a binary signal goes high (1)."""
     try:
         idx1 = rec.status_channel_ids.index(bin_id)
         stream = rec.status[idx1]
@@ -148,6 +148,8 @@ def binary_start(rec, bin_id):
     try:
         idx2 = np.atleast_1d(stream).nonzero()[0][0]
     except:
-        raise ValueError(f'The binary status signal called: "{bin_id}", is not activated at any time in the record.')
+        raise ValueError(
+            f'The binary status signal called: "{bin_id}", is not activated at any time in the record.'
+        )
 
     return idx2

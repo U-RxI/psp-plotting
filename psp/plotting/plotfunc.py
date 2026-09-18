@@ -178,8 +178,9 @@ def arrow(ax: plt.Axes, x: Iterable, y: Iterable, n: int = None):
             (x[i - 1], y[i - 1]), (x[i], y[i]), arrowstyle="->", mutation_scale=15
         )
         ax.add_patch(ar)
-        
-def center_axis(ax):        
+
+
+def center_axis(ax):
     ax.axhline(0, color="black", linewidth=1)
     ax.axvline(0, color="black", linewidth=1)
 

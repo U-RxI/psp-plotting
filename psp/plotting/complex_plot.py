@@ -99,6 +99,7 @@ class ComplexPlot(ABC):
         self.ax = FakeAx(self._ax)
         self.ax.set_title(self.title)
         self._layout()
+
     ##########################################################################
     # plot functionalities
     ##########################################################################
@@ -382,7 +383,7 @@ class ComplexPlot(ABC):
 
         return ymax * scale
 
-    def show(self, post_actions = True):
+    def show(self, post_actions=True):
         """
         Method to show the plot.
 
